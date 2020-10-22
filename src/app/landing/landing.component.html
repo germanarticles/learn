@@ -4,15 +4,18 @@
     </div>
     <div class="flex-between primary">
         <h3>Score: {{correct}} out of {{correct + incorrect}}</h3>
-        <button (click)="reset()" class="separate-button">
+        <button *ngIf=started (click)="reset()" class="separate-button secondary">
             <h3>Reset</h3>
         </button>
     </div>
     <div class="flex-center primary">
-        <h1 id="word">{{word}}</h1>
+        <button *ngIf=started id="translate-button" (mouseover)="translate(0)" (mouseout)="translate(1)">
+            <h3>{{translation}}</h3>
+        </button>
+        <h1 id="word">{{word[0]}}</h1>
     </div>
     <div *ngIf="!started" class="flex-center primary">
-        <button (click)="start()" class="separate-button">
+        <button (click)="start()" class="separate-button secondary">
             <h2>Learn German Articles</h2>
         </button>
     </div>

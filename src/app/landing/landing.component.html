@@ -9,7 +9,7 @@
         </button>
     </div>
     <div class="flex-center primary">
-        <button *ngIf=started id="translate-button" (mouseover)="translate(0)" (mouseout)="translate(1)">
+        <button *ngIf=started id="translate-button" (mouseover)="translate('show')" (mouseout)="translate('hide')" (click)="translate('toggle')">
             <h3>{{translation}}</h3>
         </button>
         <h1 id="word">{{word[0]}}</h1>

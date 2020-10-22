@@ -85,7 +85,6 @@ button
   justify-content: center
   align-items: center
 
-
 @media screen and (max-width: 1080px)
   h1
     font-size: 2em
@@ -105,3 +104,15 @@ button
     font-size: 0.7em
   h6
     font-size: 0.4em
+
+/* smartphones, touchscreens */
+@media (hover: none) and (pointer: coarse)
+  button
+    &:hover
+      animation: none
+
+/* stylus-based screens */
+@media (hover: none) and (pointer: fine)
+  button
+    &:hover
+      animation: none

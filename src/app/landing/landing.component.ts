@@ -11,6 +11,7 @@ export class LandingComponent {
   word_message: String = 'Press the button to start learning.'
   translation: String
   translation_message: String = 'Translate'
+  translation_active: Boolean = false
   article: number
   correct: number = 0
   incorrect: number = 0
@@ -52,8 +53,21 @@ export class LandingComponent {
     return Math.max(Math.round(Math.random()*max - 1), 0)
   }
 
-  translate(option: number) {
-    this.translation = option ? this.translation_message : this.word[1]
+  translate(option: string) {
+    switch (option) {
+      case 'show':
+        this.translation = this.word[1]
+        this.translation_active = true
+        break
+      case 'hide':
+        this.translation = this.translation_message
+        this.translation_active = false
+        break
+      case 'toggle':
+        this.translation = this.translation_active ? this.translation_message : this.word[1]
+        this.translation_active = !this.translation_active
+        break
+    }
   }
 
   check(answer: number): void {
@@ -65,7 +79,6 @@ export class LandingComponent {
       document.getElementById(this.colors[answer]).classList.add('incorrect')
       this.incorrect += 1
     }
-    console.log(this.done)
     let newWord = this.getWord()
 
     while (this.word[0] == newWord[0] || this.done.includes(newWord[0])) {
@@ -80,6 +93,8 @@ export class LandingComponent {
         document.getElementById(color).classList.remove('correct')
         document.getElementById(color).classList.remove('incorrect')
       })
+      this.translation = this.translation_message
+      this.translation_active = false
       this.word = newWord
     })
   }

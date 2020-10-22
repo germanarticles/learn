@@ -13,12 +13,19 @@ export class LandingComponent {
   incorrect: number = 0
   started: Boolean = false
   colors = ['der', 'die', 'das']
+  count = [0, 1, 2]
   dictionary: String[][]
+  done: String[] = []
+  message: String = "Press the button to start learning."
+
 
   constructor() {
-    this.word = 'Press the button to start.'
+    this.word = this.message
     this.dictionary = [this.getDer(), this.getDie(), this.getDas()]
-    console.log(`Word count\nDer: ${this.dictionary[0].length} Die: ${this.dictionary[1].length} Das: ${this.dictionary[2].length}`)
+    this.count[0] = this.dictionary[0].length
+    this.count[1] = this.dictionary[1].length
+    this.count[2] = this.dictionary[2].length
+    console.log(`Total word count: ${this.count[0] + this.count[1] + this.count[2]} \nDer: ${this.count[0]} Die: ${this.count[1]} Das: ${this.count[2]}`)
   }
 
   start() {
@@ -28,8 +35,9 @@ export class LandingComponent {
 
   reset() {
     this.started = false
-    this.word = 'Press the button to start.'
+    this.word = this.message
     this.correct = this.incorrect = 0
+    this.done = []
   }
 
   getWord(): String {
@@ -46,13 +54,17 @@ export class LandingComponent {
     document.getElementById(this.colors[this.article]).classList.add('correct')
     if (this.article == answer) {
       this.correct += 1
+      this.done.push(this.word)
     } else {
       document.getElementById(this.colors[answer]).classList.add('incorrect')
       this.incorrect += 1
     }
     let newWord = this.getWord()
-    while (this.word == newWord) {
+    while (this.word == newWord || this.done.includes(newWord)) {
       newWord = this.getWord()
+      if (this.done.length == this.count[0] + this.count[1] + this.count[2]) {
+        this.done = []
+      }
     }
     this.sleep(250).then(() => {
       this.colors.forEach(color => {
@@ -77,6 +89,6 @@ export class LandingComponent {
   }
 
   getDas() {
-    return ['Auto', 'Radio', 'Klima', 'Thema', 'Drama', 'Aquarium', 'Basilikum', 'Zentrum', 'Mädchen', 'Pfännchen', 'Maskottchen', 'Märchen', 'Päckchen', 'Häuslein', 'Vöglein', 'Bächlein', 'Büchlein', 'Bett', 'Ballettt', 'Büfett', 'Omelett', 'Brett', 'Datum', 'Wachstum', 'Ultimatum', 'Heiligtum', 'Votum', 'Niveau', 'Plateau', 'Kind', 'Lamm', 'A', 'B', 'Grün', 'Blau', 'Deutsch', 'Französisch', 'Spanisch', 'Baby', 'Handy', 'Image', 'moderne Deutschland', 'schöne London', 'Gold', 'Kupfer', 'Gebirge', 'Gemüse', 'Gute', 'Böse', 'Wichtige', 'Neue', 'Leben', 'Essen', 'Reisen', 'Lachen']
+    return ['Auto', 'Radio', 'Klima', 'Thema', 'Drama', 'Aquarium', 'Basilikum', 'Zentrum', 'Mädchen', 'Pfännchen', 'Maskottchen', 'Märchen', 'Päckchen', 'Häuslein', 'Vöglein', 'Bächlein', 'Büchlein', 'Bett', 'Ballett', 'Büfett', 'Omelett', 'Brett', 'Datum', 'Wachstum', 'Ultimatum', 'Heiligtum', 'Votum', 'Niveau', 'Plateau', 'Kind', 'Lamm', 'A', 'B', 'Grün', 'Blau', 'Deutsch', 'Französisch', 'Spanisch', 'Baby', 'Handy', 'Image', 'moderne Deutschland', 'schöne London', 'Gold', 'Kupfer', 'Gebirge', 'Gemüse', 'Gute', 'Böse', 'Wichtige', 'Neue', 'Leben', 'Essen', 'Reisen', 'Lachen']
   }
 }

@@ -40,6 +40,8 @@ export class LandingComponent {
     this.started = false
     this.word = [this.word_message, 'Translation']
     this.correct = this.incorrect = 0
+    this.translation = this.translation_message
+    this.translation_active = false
     this.done = []
   }
 

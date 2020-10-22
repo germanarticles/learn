@@ -1,0 +1,34 @@
+<section class="grid-rows">
+    <div class="nav-bar flex-center dark">
+        <h6>All rights reserved Emanuel Slätteby 2020</h6>
+    </div>
+    <div class="flex-between primary">
+        <h3>Score: {{correct}} out of {{correct + incorrect}}</h3>
+        <button (click)="reset()" class="separate-button">
+            <h3>Reset</h3>
+        </button>
+    </div>
+    <div class="flex-center primary">
+        <h1 id="word">{{word}}</h1>
+    </div>
+    <div *ngIf="!started" class="flex-center primary">
+        <button (click)="start()" class="separate-button">
+            <h2>Start</h2>
+        </button>
+    </div>
+    <div *ngIf="started" id="der" class="flex-center picks bright">
+        <button (click)="check(0)">
+            <h2>der</h2>
+        </button>
+    </div>
+    <div *ngIf="started" id="die" class="flex-center picks bright">
+        <button (click)="check(1)">
+            <h2>die</h2>
+        </button>
+    </div>
+    <div *ngIf="started" id="das" class="flex-center picks bright">
+        <button (click)="check(2)">
+            <h2>das</h2>
+        </button>
+    </div>
+</section>

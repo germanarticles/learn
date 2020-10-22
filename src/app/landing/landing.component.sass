@@ -1,0 +1,27 @@
+@import "../../assets/colors"
+@import "../../assets/animations"
+
+.nav-bar, .flex-between
+  padding-left: 1em
+  padding-right: 1em
+.grid-rows>div
+  grid-area: span 1 / span 3
+  &:nth-of-type(n+3)
+    grid-row: span 7
+  &.picks
+    grid-column: span 1
+    border: 1px solid $primary-color
+    button
+      width: 100%
+      height: 100%
+      margin: 0
+.correct
+  animation: "reveal-correct"
+  animation-duration: 1s
+.incorrect
+  animation: "reveal-incorrect"
+  animation-duration: 1s
+#word
+  animation: "hover-animation"
+  animation-duration: 1.5s
+  animation-iteration-count: infinite

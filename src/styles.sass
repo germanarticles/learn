@@ -1,1 +1,107 @@
-/* You can add global styles to this file, and also import other style files */
+@import './assets/colors'
+@import './assets/fonts'
+@import './assets/animations'
+
+
+body
+  height: 100vh
+  max-width: 100vw
+  overflow: hidden
+  margin: 0
+  font-family: sans-serif
+h1
+  max-width: 50vw
+  font-size: 2.5em
+  font-family: $primary-font
+h2
+  font-size: 2em
+  font-family: $primary-font
+h3
+  font-size: 1.2em
+  font-family: $primary-font
+h6
+  font-size: 0.6em
+  margin: 0
+h2, h3
+  text-transform: capitalize
+h1, h2, h3, h6
+  letter-spacing: 0.05em
+button
+  background: none
+  border-style: none
+  h1, h2, h3
+    height: 1em
+  &:hover
+    animation: 'rotate-animation'
+    animation-duration: 0.1s
+    animation-iteration-count: infinite
+  &.separate-button
+    animation: none
+    border-radius: 3px
+    background: $secondary-color
+    color: white
+    h1, h2, h3
+      margin: 0
+      padding: 0.75em 1em
+      color: white
+    &:hover
+      background: black
+      transition: 300ms
+
+// Classes
+.primary
+  background: $primary-color
+  color: black
+.secondary
+  background: $secondary-color
+  color: white
+.bright
+  background: $bright-color
+  color: black
+.dark
+  background: black
+  color: white
+.grid-cols
+  display: grid
+  grid-auto-flow: column
+  height: 100%
+  width: 100%
+.grid-rows
+  display: grid
+  grid-auto-flow: row
+  height: 100%
+  width: 100%
+.flex-start, .flex-end, .flex-between, .flex-center
+  display: flex
+  flex-direction: row
+  align-items: center
+.flex-start
+  justify-content: flex-start
+.flex-end
+  justify-content: flex-end
+.flex-between
+  justify-content: space-between
+.flex-center
+  justify-content: center
+  align-items: center
+
+
+@media screen and (max-width: 1080px)
+  h1
+    font-size: 2em
+  h2
+    font-size: 1.6em
+  h3
+    font-size: 1em
+  h6
+    font-size: 0.5em
+
+@media screen and (max-width: 600px)
+  h1
+    font-size: 1.25em
+  h2
+    font-size: 1em
+  h3
+    font-size: 0.7em
+  h6
+    font-size: 0.4em

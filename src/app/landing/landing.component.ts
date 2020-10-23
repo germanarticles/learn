@@ -24,31 +24,37 @@ export class LandingComponent {
   constructor() {
     this.word = [this.word_message, 'Translation']
     this.translation = this.translation_message
-    this.dictionary = [this.getDer(), this.getDie(), this.getDas()]
-    this.count[0] = this.dictionary[0].length
-    this.count[1] = this.dictionary[1].length
-    this.count[2] = this.dictionary[2].length
-    console.log(`Total word count: ${this.count[0] + this.count[1] + this.count[2]} \nDer: ${this.count[0]} Die: ${this.count[1]} Das: ${this.count[2]}`)
   }
 
   start() {
     this.started = true
-    this.word = this.getWord()
+    this.dictionary = [this.getDer(), this.getDie(), this.getDas()]
+    this.count = [this.dictionary[0].length, this.dictionary[1].length, this.dictionary[2].length]
+    this.article = this.getRandom(3)
+    this.word = this.dictionary[this.article][this.getRandom(this.dictionary[this.article].length)]
+    this.resetTranslation()
+    this.done = []
+    console.log(`Total word count: ${this.count[0] + this.count[1] + this.count[2]} \nDer: ${this.count[0]} Die: ${this.count[1]} Das: ${this.count[2]}`)
   }
 
   reset() {
     this.started = false
     this.word = [this.word_message, 'Translation']
     this.correct = this.incorrect = 0
-    this.translation = this.translation_message
-    this.translation_active = false
     this.done = []
   }
 
-  getWord(): String[] {
-    this.article = this.getRandom(3)
-    const len = this.dictionary[this.article].length
-    return this.dictionary[this.article][this.getRandom(len)]
+  resetTranslation() {
+    this.translation = this.translation_message
+    this.translation_active = false
+  }
+
+  resetColors() {
+    this.colors.forEach(color => {
+      document.getElementById(color).style.pointerEvents = 'all'
+      document.getElementById(color).classList.remove('correct')
+      document.getElementById(color).classList.remove('incorrect')
+    })
   }
 
   getRandom(max: number): number {
@@ -80,25 +86,37 @@ export class LandingComponent {
     } else {
       document.getElementById(this.colors[answer]).classList.add('incorrect')
       this.incorrect += 1
+      this.dictionary[this.article].unshift(this.word)
     }
-    let newWord = this.getWord()
 
-    while (this.word[0] == newWord[0] || this.done.includes(newWord[0])) {
-      if (this.done.length == this.count[0] + this.count[1] + this.count[2]) {
-        this.done = []
+    let newWord: String[] = ['N/A', 'N/A']
+    do {
+      if (this.checkEmpty()) {
+        this.resetColors()
+        this.start()
+        return
+      } else {
+        do {
+          this.article = this.getRandom(3)
+        } while (!this.dictionary[this.article].length)
+        newWord = this.dictionary[this.article].pop()
+        break
       }
-      newWord = this.getWord()
-    }
+    } while (this.word[0] == newWord[0] || this.done.includes(newWord[0]))
+
     this.sleep(250).then(() => {
-      this.colors.forEach(color => {
-        document.getElementById(color).style.pointerEvents = 'all'
-        document.getElementById(color).classList.remove('correct')
-        document.getElementById(color).classList.remove('incorrect')
-      })
-      this.translation = this.translation_message
-      this.translation_active = false
+      this.resetColors()
+      this.resetTranslation()
       this.word = newWord
     })
+  }
+
+  checkEmpty(): Boolean {
+    if (!(this.dictionary[0].length + this.dictionary[1].length + this.dictionary[2].length)) {
+      return true
+    } else {
+      return false
+    }
   }
 
   sleep(ms: number) {
@@ -114,6 +132,14 @@ export class LandingComponent {
   }
 
   getDas() {
-    return [['Auto', 'Car'], ['Radio', 'Radio'], ['Klima', 'Climate'], ['Thema', 'Topic'], ['Drama', 'Drama'], ['Aquarium', 'Aquarium'], ['Basilikum', 'Basil'], ['Zentrum', 'Centre'], ['Mädchen', 'Girl'], ['Pfännchen', 'Small frying pan'], ['Maskottchen', 'Mascot'], ['Märchen', 'Fairytale'], ['Päckchen', 'Small package'], ['Häuslein', 'Little house'], ['Vöglein', 'Little bird'], ['Bächlein', 'Brooklet'], ['Büchlein', 'Booklet'], ['Bett', 'Bed'], ['Ballettt', 'The ballet'], ['Büfett', 'The buffet'], ['Omelett', 'The omelet'], ['Brett', 'The board'], ['Datum', 'Date'], ['Wachstum', 'Growth'], ['Ultimatum', 'Ultimatum'], ['Heiligtum', 'Relic'], ['Votum', 'Vote'], ['Niveau', 'Level'], ['Plateau', 'Plateau'], ['Kind', 'Child'], ['Lamm', 'Lamb'], ['A', 'The a'], ['B', 'The b'], ['Grün', 'Green'], ['Blau', 'Blue'], ['Deutsch', 'German'], ['Französisch', 'French'], ['Spanisch', 'Spanish'], ['Baby', 'Baby'], ['Handy', 'Phone'], ['Image', 'Image'], ['moderne Deutschland', 'Modern germany'], ['schöne London', 'Beautiful london'], ['Gold', 'Gold'], ['Kupfer', 'Copper'], ['Gebirge', 'Mountains'], ['Gemüse', 'Vegetable'], ['Gute', 'The good'], ['Böse', 'The bad'], ['Wichtige', 'The important'], ['Neue', 'The new'], ['Leben', 'Life'], ['Essen', 'Food'], ['Reisen', 'Travel'], ['Lachen', 'Laugh']]
+    return [['Auto', 'Car'], ['Radio', 'Radio'], ['Klima', 'Climate'], ['Thema', 'Topic'], ['Drama', 'Drama'], ['Aquarium', 'Aquarium'], ['Basilikum', 'Basil'], ['Zentrum', 'Centre'], ['Mädchen', 'Girl'], ['Pfännchen', 'Small frying pan'], ['Maskottchen', 'Mascot'], ['Märchen', 'Fairytale'], ['Päckchen', 'Small package'], ['Häuslein', 'Little house'], ['Vöglein', 'Little bird'], ['Bächlein', 'Brooklet'], ['Büchlein', 'Booklet'], ['Bett', 'Bed'], ['Ballett', 'The ballet'], ['Büfett', 'The buffet'], ['Omelett', 'The omelet'], ['Brett', 'The board'], ['Datum', 'Date'], ['Wachstum', 'Growth'], ['Ultimatum', 'Ultimatum'], ['Heiligtum', 'Relic'], ['Votum', 'Vote'], ['Niveau', 'Level'], ['Plateau', 'Plateau'], ['Kind', 'Child'], ['Lamm', 'Lamb'], ['A', 'The a'], ['B', 'The b'], ['Grün', 'Green'], ['Blau', 'Blue'], ['Deutsch', 'German'], ['Französisch', 'French'], ['Spanisch', 'Spanish'], ['Baby', 'Baby'], ['Handy', 'Phone'], ['Image', 'Image'], ['moderne Deutschland', 'Modern germany'], ['schöne London', 'Beautiful london'], ['Gold', 'Gold'], ['Kupfer', 'Copper'], ['Gebirge', 'Mountains'], ['Gemüse', 'Vegetable'], ['Gute', 'The good'], ['Böse', 'The bad'], ['Wichtige', 'The important'], ['Neue', 'The new'], ['Leben', 'Life'], ['Essen', 'Food'], ['Reisen', 'Travel'], ['Lachen', 'Laugh']]
+  }
+
+  debugWords() {
+    return [
+      [['Gedanke', 'Though'], ['Abgleich', 'Adjustment']],
+      [['Null', 'Zero'], ['Kritik', 'Criticism']],
+      [['Drama', 'Drama'], ['Zentrum', 'Center']],
+    ]
   }
 }
